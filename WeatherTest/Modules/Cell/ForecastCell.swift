@@ -15,13 +15,12 @@ final class ForecastCell: UITableViewCell {
     
     private lazy var dayLabel = createLabel()
     
+    private lazy var separatorView = createView()
+    
     //MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor(red: 0.236, green: 0.304, blue: 0.396, alpha: 0.6)
-        selectionStyle = .none
-        separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 14)
         configureUI()
     }
     
@@ -30,13 +29,20 @@ final class ForecastCell: UITableViewCell {
     }
     
     private func configureUI() {
-        contentView.addSubviews(dayLabel)
+        contentView.addSubviews(dayLabel, separatorView)
+        backgroundColor = UIColor(red: 0.236, green: 0.304, blue: 0.396, alpha: 0.6)
+        selectionStyle = .none
         
         NSLayoutConstraint.activate([
             dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 14),
             dayLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 14),
             dayLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14),
             dayLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            separatorView.heightAnchor.constraint(equalToConstant: 1),
+            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
+            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -14),
+            separatorView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
@@ -47,6 +53,13 @@ final class ForecastCell: UITableViewCell {
         label.font = AppTheme.Fonts.Inter(18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }
+    
+    private func createView() -> UIView {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0.43, green: 0.472, blue: 0.529, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }
     
     func setData() {

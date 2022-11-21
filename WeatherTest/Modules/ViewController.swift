@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     private lazy var cloudImageView = makeImageView()
     // Хидер вью в таблице
     private var perDayView = HeaderView()
+    // Футер вью в таблице
+    private var footerView = FooterView()
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,7 @@ class ViewController: UIViewController {
         tableView.register(ForecastCell.self, forCellReuseIdentifier: ForecastCell.reuseIdentifier)
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         tableView.separatorColor = .lightGray
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
@@ -62,10 +65,6 @@ class ViewController: UIViewController {
 
 
 extension ViewController: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
@@ -89,6 +88,7 @@ extension ViewController: UITableViewDelegate {
         return perDayView
     }
     
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return footerView
+    }
 }
-
-

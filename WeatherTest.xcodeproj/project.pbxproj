@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7E54C502292C131D00A0D372 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E54C501292C131D00A0D372 /* HeaderView.swift */; };
+		7E54C505292C20A400A0D372 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E54C504292C20A400A0D372 /* FooterView.swift */; };
 		7E555BA9292C0AE100144945 /* ForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E555BA8292C0AE100144945 /* ForecastCell.swift */; };
 		7E56030B292A292200EBFF89 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E56030A292A292200EBFF89 /* AppDelegate.swift */; };
 		7E56030D292A292200EBFF89 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E56030C292A292200EBFF89 /* SceneDelegate.swift */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		7E54C501292C131D00A0D372 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		7E54C504292C20A400A0D372 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		7E555BA8292C0AE100144945 /* ForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCell.swift; sourceTree = "<group>"; };
 		7E560307292A292200EBFF89 /* WeatherTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E56030A292A292200EBFF89 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7E54C503292C208300A0D372 /* FooterVIew */ = {
+			isa = PBXGroup;
+			children = (
+				7E54C504292C20A400A0D372 /* FooterView.swift */,
+			);
+			path = FooterVIew;
+			sourceTree = "<group>";
+		};
 		7E555BA7292C0AA200144945 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				7E555BAB292C0FCB00144945 /* HeaderView */,
+				7E54C503292C208300A0D372 /* FooterVIew */,
 				7E555BA7292C0AA200144945 /* Cell */,
 				7E56030E292A292200EBFF89 /* ViewController.swift */,
 			);
@@ -203,6 +214,7 @@
 				7E56030B292A292200EBFF89 /* AppDelegate.swift in Sources */,
 				7E555BA9292C0AE100144945 /* ForecastCell.swift in Sources */,
 				7E56030D292A292200EBFF89 /* SceneDelegate.swift in Sources */,
+				7E54C505292C20A400A0D372 /* FooterView.swift in Sources */,
 				7E560327292A3D8000EBFF89 /* AppTheme.swift in Sources */,
 				7E54C502292C131D00A0D372 /* HeaderView.swift in Sources */,
 			);
