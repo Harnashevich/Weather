@@ -13,8 +13,17 @@ final class ForecastCell: UITableViewCell {
     
     //MARK: - UI
     
-    private lazy var dayLabel = createLabel()
-    
+    /// Стек вью c элементами
+    private lazy var stackView = createStackView()
+    // Лейбл с днём недели
+    private lazy var dayLabel = createLabel(fontSize: 18, color: .white)
+    // Имейдж вью с типом погоды
+    private lazy var weatherImageView = createWeatherImageView()
+    // Лейб с минимальной температутрой
+    private lazy var minTemperature = createLabel(fontSize: 16, color: UIColor(red: 0.584, green: 0.631, blue: 0.694, alpha: 1))
+    // Лейб с максимальной температутрой
+    private lazy var maxTemperature = createLabel(fontSize: 16, color: .white)
+    // Нижний сепаратор
     private lazy var separatorView = createView()
     
     //MARK: - Lifecycle
@@ -29,28 +38,47 @@ final class ForecastCell: UITableViewCell {
     }
     
     private func configureUI() {
-        contentView.addSubviews(dayLabel, separatorView)
+        contentView.addSubviews(stackView, separatorView)
+        stackView.addArrangedSubviews(dayLabel, weatherImageView, minTemperature, maxTemperature)
         backgroundColor = UIColor(red: 0.236, green: 0.304, blue: 0.396, alpha: 0.6)
         selectionStyle = .none
-        
+    
         NSLayoutConstraint.activate([
-            dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 14),
-            dayLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 14),
-            dayLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -14),
-            dayLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -14),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
             
-            separatorView.heightAnchor.constraint(equalToConstant: 1),
+            dayLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            weatherImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            maxTemperature.centerYAnchor.constraint(equalTo: centerYAnchor),
+            minTemperature.centerYAnchor.constraint(equalTo: centerYAnchor),
+        
+            weatherImageView.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 14),
+            weatherImageView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: -14),
+            
             separatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
             separatorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -14),
+            separatorView.heightAnchor.constraint(equalToConstant: 1),
             separatorView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
-    private func createLabel() -> UILabel {
+    private func createStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+    
+    private func createLabel(fontSize: CGFloat, color: UIColor) -> UILabel {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = color
         label.numberOfLines = 0
-        label.font = AppTheme.Fonts.Inter(18)
+        label.lineBreakMode = .byWordWrapping
+        label.font = AppTheme.Fonts.Inter(fontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
@@ -62,8 +90,18 @@ final class ForecastCell: UITableViewCell {
         return view
     }
     
+    private func createWeatherImageView() -> UIImageView {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }
+    
     func setData() {
         dayLabel.text = "Сб"
+        weatherImageView.image = UIImage(systemName: "cloud.fill")
+        weatherImageView.tintColor = .white
+        maxTemperature.text = "-4" + "°"
+        minTemperature.text = "-1" + "°"
     }
-
 }

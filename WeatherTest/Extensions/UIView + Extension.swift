@@ -5,7 +5,7 @@
 //  Created by Harnashevich on 20.11.22.
 //
 
-import UIKit
+import UIKit.UIView
 
 extension UIView {
     
