@@ -20,7 +20,7 @@ final class PerDayCell: UICollectionViewCell {
     // Лейбл с температурой
     private lazy var temperatureLabel = createLabel(fontSize: 16, color: .white)
     
-    //MARK: - Lifecycle
+    //MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,6 +31,8 @@ final class PerDayCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+//MARK: - Methods
 
 extension PerDayCell {
     
@@ -69,10 +71,27 @@ extension PerDayCell {
         ])
     }
     
-    func setData() {
-        timeLabel.text = "16"
-        weatherImageView.image = UIImage(systemName: "cloud.fill")
-        weatherImageView.tintColor = .white
-        temperatureLabel.text = "-4" + "°"
+    func setData(with model: WeatherPerDay) {
+        timeLabel.text = model.timestamp
+        
+        switch model.weatherType {
+        case .sunny:
+            weatherImageView.image = UIImage(systemName: "sun.max.fill")
+            weatherImageView.tintColor = .yellow
+        case .cloudy:
+            weatherImageView.image = UIImage(systemName: "cloud.fill")
+            weatherImageView.tintColor = .white
+        case .rainy:
+            weatherImageView.image = UIImage(systemName: "cloud.rain.fill")
+            weatherImageView.tintColor = .white
+        }
+        
+        if model.sunset == true {
+            temperatureLabel.text = "Заход солнца"
+            weatherImageView.image = UIImage(systemName: "sunset.fill")
+            weatherImageView.tintColor = .yellow
+        } else {
+            temperatureLabel.text = model.temperature + "°"
+        }
     }
 }

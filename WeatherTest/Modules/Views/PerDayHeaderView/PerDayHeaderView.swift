@@ -1,5 +1,5 @@
 //
-//  HeaderView.swift
+//  PerDayHeaderView.swift
 //  WeatherTest
 //
 //  Created by Harnashevich on 21.11.22.
@@ -7,18 +7,24 @@
 
 import UIKit
 
-final class HeaderView: UIView {
+final class PerDayHeaderView: UIView {
     
     //MARK: - UI
     
     // Лейбл с названием города
-    private lazy var cityLabel = createLabel(fontSize: 30, color: .white)
+    private lazy var cityLabel = createLabel(fontSize: 30,
+                                             color: .white)
     // Лейбл с температурой и типом погоды
-    private lazy var shortDescriptionLabel = createLabel(fontSize: 16, color: UIColor(red: 1, green: 1, blue: 1, alpha: 0.6))
+    private lazy var shortDescriptionLabel = createLabel(fontSize: 16,
+                                                         color: UIColor(red: 1,
+                                                                        green: 1,
+                                                                        blue: 1,
+                                                                        alpha: 0.6))
     // Вью с подробной информацией на сегодня
     private lazy var detailtDescriptionView = createView()
     // Лейбл с описанием погоды
-    private lazy var detailtDescriptionLabel = createLabel(fontSize: 14, color: .white)
+    private lazy var detailtDescriptionLabel = createLabel(fontSize: 14,
+                                                           color: .white)
     // Сепаратор в detailtDescriptionView
     private lazy var detailSeparator = createView()
     // Колекшн вью с детальной информацие за день
@@ -28,11 +34,20 @@ final class HeaderView: UIView {
     // Картинка с календарём
     private lazy var calendarImageView = createCalendarImage()
     // Лейбл "10-DAY FORECAST"
-    private lazy var forecastLabel = createLabel(fontSize: 14, color:  UIColor(red: 0.584, green: 0.631, blue: 0.694, alpha: 1))
+    private lazy var forecastLabel = createLabel(fontSize: 14,
+                                                 color:  UIColor(red: 0.584,
+                                                                 green: 0.631,
+                                                                 blue: 0.694,
+                                                                 alpha: 1))
     // Нижний сепаратор
     private lazy var separatorView = createView()
     
-    //MARK: - Lifecycle
+    //MARK: - Variables
+    
+    // Модель погоды
+    var weather = WeatherModel()
+    
+    //MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,7 +59,7 @@ final class HeaderView: UIView {
     }
 }
 
-extension HeaderView {
+extension PerDayHeaderView {
 
     private func createLabel(fontSize: CGFloat, color: UIColor) -> UILabel {
         let label = UILabel()
@@ -58,7 +73,10 @@ extension HeaderView {
     
     private func createView() -> UIView {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 0.235, green: 0.306, blue: 0.396, alpha: 0.6)
+        view.backgroundColor = UIColor(red: 0.235,
+                                       green: 0.306,
+                                       blue: 0.396,
+                                       alpha: 0.6)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
@@ -73,7 +91,6 @@ extension HeaderView {
     private func createCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 55, height: 116)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = .clear
@@ -81,6 +98,7 @@ extension HeaderView {
         collection.showsVerticalScrollIndicator = false
         collection.register(PerDayCell.self, forCellWithReuseIdentifier: PerDayCell.reuseIdentifier)
         collection.dataSource = self
+        collection.delegate = self
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }
@@ -93,11 +111,16 @@ extension HeaderView {
         detailtDescriptionView.layer.cornerRadius = 14
         bottomView.layer.cornerRadius = 14
         bottomView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        separatorView.backgroundColor = UIColor(red: 0.43, green: 0.472, blue: 0.529, alpha: 1)
-        detailSeparator.backgroundColor = UIColor(red: 0.43, green: 0.472, blue: 0.529, alpha: 1)
+        separatorView.backgroundColor = UIColor(red: 0.43,
+                                                green: 0.472,
+                                                blue: 0.529,
+                                                alpha: 1)
+        detailSeparator.backgroundColor = UIColor(red: 0.43,
+                                                  green: 0.472,
+                                                  blue: 0.529,
+                                                  alpha: 1)
         forecastLabel.text = "10-DAY FORECAST"
         detailtDescriptionLabel.numberOfLines = 2
-        detailtDescriptionLabel.text = "Облачная погода до конца дня. Порывы ветра до 25 км/ч."
     
         NSLayoutConstraint.activate([
             cityLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
@@ -146,25 +169,41 @@ extension HeaderView {
         ])
     }
     
-    //MARK: - Public Methods
-    
-    func setData() {
-        cityLabel.text = "Минск"
-        shortDescriptionLabel.text = "-4" + " | " + "Облачно"
+    func setData(with model: WeatherModel) {
+        cityLabel.text = model.city
+        shortDescriptionLabel.text = model.temperature
+        detailtDescriptionLabel.text = model.weatherModelDescription
     }
 }
 
-extension HeaderView: UICollectionViewDataSource {
+//MARK: - UICollectionViewDataSource
+
+extension PerDayHeaderView: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        return weather.weatherPerDay.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PerDayCell.reuseIdentifier, for: indexPath) as? PerDayCell else { return UICollectionViewCell() }
-        cell.setData()
+        cell.setData(with: weather.weatherPerDay[indexPath.row])
         return cell
     }
+}
+
+//MARK: - UICollectionViewDelegateFlowLayout
+
+extension PerDayHeaderView: UICollectionViewDelegateFlowLayout {
     
-    
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let isSunset: Bool = weather.weatherPerDay[indexPath.row].sunset ?? Bool()
+        switch isSunset {
+        case true:
+            return CGSize(width: 140,
+                          height: 115)
+        case false:
+            return CGSize(width: 55,
+                          height: 115)
+        }
+    }
 }
