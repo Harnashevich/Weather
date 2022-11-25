@@ -34,7 +34,8 @@ class WeatherViewController: UIViewController {
         configureUI()
         
         presenter.setViewDelegate(delegate: self)
-        if let localData = self.readLocalFile(forName: "weatherData") {
+        
+        if let localData = presenter.readLocalFile(forName: "weatherData") {
             presenter.getWeather(jsonData: localData)
         }
     }
@@ -58,20 +59,6 @@ extension WeatherViewController: WeatherPresenterDelegate {
 //MARK: - Methods
 
 extension WeatherViewController {
-    
-    private func readLocalFile(forName name: String) -> Data? {
-        do {
-            if let bundlePath = Bundle.main.path(forResource: name,
-                                                 ofType: "json"),
-               let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
-                return jsonData
-            }
-        } catch {
-            print(error)
-        }
-        
-        return nil
-    }
     
     private func configureUI() {
         view.addSubviews(cloudImageView, tableView)
@@ -118,7 +105,6 @@ extension WeatherViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weather.forecast.count
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ForecastCell.reuseIdentifier, for: indexPath) as? ForecastCell else { return UITableViewCell() }
