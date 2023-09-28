@@ -10,6 +10,7 @@ import Foundation
 final class DateFormatterManager {
     
     static let shared = DateFormatterManager()
+    
     private let formatter = DateFormatter()
     
     private init() {}

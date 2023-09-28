@@ -40,7 +40,6 @@ final class WeatherPresenter {
         }
     }
     
-    
     func setViewDelegate(delegate: PresenterDelegate) {
         self.delegate = delegate
     }
