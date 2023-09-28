@@ -23,6 +23,21 @@
       "sunset": true,
       "weather_type": "rainy",
       "temperature": "-14"
+    },
+     {
+      "timestamp": "20",
+      "weather_type": "cloudy",
+      "temperature": "-14"
+    },
+     {
+      "timestamp": "22",
+      "weather_type": "cloudy",
+      "temperature": "-20"
+    },
+     {
+      "timestamp": "23",
+      "weather_type": "cloudy",
+      "temperature": "-20"
     }
   ],
   "forecast": [
