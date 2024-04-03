@@ -1,4 +1,4 @@
-# WeatherTest
+# Weather
 
 A small application for displaying weather on the Model-View-Presenter architecture.
 
